@@ -27,7 +27,9 @@
           
                for(let i = 0; i < data.items.length; i++) {
                     let item = data.items[i].volumeInfo.title;
-                    document.getElementById("titles").innerHTML += `<li>${item}</li>`
+                    let thumbnail = data.items[i].volumeInfo.imageLinks.thumbnail;
+                    document.getElementById("titles").innerHTML += `<li>${item}</li>`;
+                    document.getElementById("titles").innerHTML += `<img src=${thumbnail} />`
                }  
           }
 
