@@ -1,0 +1,58 @@
+body {
+     color: black;
+}
+
+#books {
+     display: grid;
+     grid-template-rows: 1fr;
+     gap: 3rem;
+     width: 100%;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+}
+
+#bookCard0 {
+     border: 2px solid black;
+     background-color: gray;
+}
+#bookCard1 {
+     border: 2px solid black;
+     background-color: lightblue;
+}
+#bookCard2 {
+     border: 2px solid black;
+     background-color: gray;
+}
+#bookCard3 {
+     border: 2px solid black;
+     background-color: lightblue;
+}
+#bookCard4 {
+     border: 2px solid black;
+     background-color: gray;
+}
+#bookCard5 {
+     border: 2px solid black;
+     background-color: lightblue;
+}
+#bookCard6 {
+     border: 2px solid black;
+     background-color: gray;
+}
+#bookCard7 {
+     border: 2px solid black;
+     background-color: lightblue;
+}
+#bookCard8 {
+     border: 2px solid black;
+     background-color: gray;
+}
+#bookCard9 {
+     border: 2px solid black;
+     background-color: lightblue;
+}
+#bookCard10 {
+     border: 2px solid black;
+     background-color: gray;
+}
