@@ -1,6 +1,7 @@
 let searchInfo = "";
 let searched = false;
 let booksArr = [];
+
 async function getBooks() {
      const url = `https://www.googleapis.com/books/v1/volumes?q=${searchInfo}`;
      const response = await fetch(url);
@@ -12,7 +13,7 @@ async function getBooks() {
           let book = {
                title: "",
                thumbnail: "",
-               pageCount: 0,
+               averageRating: 0,
                price: 0,
                publishedDate: 0,
                googlePreview: ""
@@ -23,17 +24,17 @@ async function getBooks() {
                book.title = data.items[i].volumeInfo.title;
                document.getElementById(`bookCard${i}`).innerHTML += `<h2>${book.title}</h2>`;
           } else {
-               book.title = "<p>No title available</p>";
+               book.title = "<p>Title: n/a</p>";
                document.getElementById(`bookCard${i}`).innerHTML += `${book.title}`;
           }
 
           // Check for page count
-          if(data.items[i].volumeInfo.hasOwnProperty("pageCount")) {
-               book.pageCount = data.items[i].volumeInfo.pageCount;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Page Count: ${book.pageCount}</p>`;
+          if(data.items[i].volumeInfo.hasOwnProperty("averageRating")) {
+               book.averageRating = data.items[i].volumeInfo.averageRating;
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
           } else {
-               book.pageCount = "<p>No page count available</p>";
-               document.getElementById(`bookCard${i}`).innerHTML += `${book.pageCount}`;
+               book.averageRating = undefined;
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
 
           // Check for price USD
@@ -41,8 +42,8 @@ async function getBooks() {
                book.price = data.items[i].saleInfo.listPrice.amount;
                document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${book.price}</p>`;
           } else {
-               book.price = "<p>No price data available</p>";
-               document.getElementById(`bookCard${i}`).innerHTML += `${book.price}`;
+               book.price = undefined;
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
           }
 
           // Check for published date
@@ -50,7 +51,7 @@ async function getBooks() {
                book.publishedDate = data.items[i].volumeInfo.publishedDate.slice(0, 4);
                document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${book.publishedDate}</p>`;
           } else {
-               book.publishedDate = "<p>No page count available</p>";
+               book.publishedDate = "<p>Published: n/a</p>";
                document.getElementById(`bookCard${i}`).innerHTML += `${book.publishedDate}`;
           }
 
@@ -71,6 +72,7 @@ async function getBooks() {
      
 }
 
+// Search for any book info and retrieve it from Google API
 document.getElementById("searchForm").addEventListener("submit", (e) => {
      if (searched === false) {
           e.preventDefault();
@@ -87,6 +89,38 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
           document.getElementById("searchMessage").innerHTML = `Showing results for: "${searchInfo}"`;
           console.log(searchInfo);
      }
+})
+
+//Add filter options to the booksArr
+document.getElementById("filter").addEventListener("change", (e) => {
+     let filterChoice = e.target.value;
+     console.log(filterChoice);
+     if(filterChoice === "ratedHigh") {
+          booksArr.sort((a, b) => {
+               return b.averageRating - a.averageRating;
+          });
+          
+          for (let i = 0; i < booksArr.length; i++) {
+               console.log(booksArr[i].averageRating);
+               document.getElementById(`bookCard${i}`).innerHTML = `<h2>${booksArr[i].title}</h2>`;
+               //Double check if the item has a rating
+               if (booksArr[i].averageRating !== undefined) {
+                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${booksArr[i].averageRating}⭐️</p>`;
+               } else {
+                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
+               }
+               //Double check for price info
+               if (booksArr[i].price !== undefined) {
+                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${booksArr[i].price}</p>`;
+               } else {
+                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
+               }
+               
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${booksArr[i].publishedDate}</p>`;
+               document.getElementById(`bookCard${i}`).innerHTML += `<img src=${booksArr[i].thumbnail} />`;
+          }
+     }
+     
 })
 
 const getSearch = (form) => {

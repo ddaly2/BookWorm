@@ -13,12 +13,14 @@
           <input type="text" id="search" name="search" value="" placeholder="Title, author, etc">
           <button type="submit" name="submit">Search</button>
      </form>
+     <label for="filter">Filter</label>
      <select name="filter" id="filter">
           <option value="options">Options</option>
           <option value="newToOld">Newest first</option>
-          <option value="oldToNew">Oldest first</option>
-          <option value="lowToHigh">Price low - high</option>
-          <option value="highToLow">Price high - low</option>
+          <option value="ratedHigh">Highest rated</option>
+          <option value="ratedLow">Lowest rated</option>
+          <option value="expensive">Price low - high</option>
+          <option value="cheapest">Price high - low</option>
         </select>
      <p id="searchMessage"></p>
      <div id="books"></div>
