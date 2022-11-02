@@ -1,6 +1,6 @@
 let searchInfo = "";
 let searched = false;
-let booksArr = [];
+let booksArr;
 
 
 async function getBooks() {
@@ -74,6 +74,15 @@ async function getBooks() {
 
 // Search for any book info and retrieve it from Google API
 document.getElementById("searchForm").addEventListener("submit", (e) => {
+     //Initialize booksArr as a new empty arr everytime the search button is clicked to reset what books the filters will apply to
+     booksArr = [];
+     document.getElementById("filter").innerHTML = `
+          <option value="none">None</option>
+          <option value="newToOld">Newest first</option>
+          <option value="ratedHigh">Highest rated</option>
+          <option value="ratedLow">Lowest rated</option>
+          <option value="expensive">Price high - low</option>
+          <option value="cheap">Price low - high</option>`;
      if (searched === false) {
           e.preventDefault();
           getSearch(e.target);
@@ -92,8 +101,11 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
 //Add filter options to the booksArr
 document.getElementById("filter").addEventListener("change", (e) => {
      let filterChoice = e.target.value;
-     let ratedHighArr = [];
      let newToOldArr = [];
+     let ratedHighArr = [];
+     let ratedLowArr = [];
+     let expensiveArr = [];
+     let cheapArr = [];
      console.log(filterChoice);
      if (filterChoice === "newToOld"){
           newToOldArr = [...booksArr];
@@ -130,8 +142,77 @@ document.getElementById("filter").addEventListener("change", (e) => {
           //Combine newly sorted rating arr with all books that have no rating appended at the end
           ratedHighArr = [...hasRatingArr, ...hasNoRatingArr];
           sortResults(ratedHighArr);
-     } 
-     
+     } else if(filterChoice === "ratedLow") {
+          //Create new arr so original books arr is untouched
+          ratedLowArr = [...booksArr];
+          let hasNoRatingArr = [];
+          let hasRatingArr = [];
+          for (let i = 0; i < ratedLowArr.length; i++) {
+               if (ratedLowArr[i].averageRating === undefined){
+                    hasNoRatingArr.push(ratedLowArr[i]);
+               } else {
+                    hasRatingArr.push(ratedLowArr[i]);
+               }
+          }
+          //Sort ratings in descending order
+          hasRatingArr.sort((a, b) => {
+               return a.averageRating - b.averageRating;
+          });
+          //Combine newly sorted rating arr with all books that have no rating appended at the end
+          ratedLowArr = [...hasNoRatingArr, ...hasRatingArr];
+          sortResults(ratedLowArr);
+     } else if(filterChoice === "expensive") {
+          //Create new arr so original books arr is untouched
+          expensiveArr = [...booksArr];
+          let hasNoPriceArr = [];
+          let hasPriceArr = [];
+          for (let i = 0; i < expensiveArr.length; i++) {
+               if (expensiveArr[i].price === undefined){
+                    hasNoPriceArr.push(expensiveArr[i]);
+               } else {
+                    hasPriceArr.push(expensiveArr[i]);
+               }
+          }
+          //Sort ratings in descending order
+          hasPriceArr.sort((a, b) => {
+               return b.price - a.price;
+          });
+          //Combine newly sorted rating arr with all books that have no rating appended at the end
+          expensiveArr = [...hasPriceArr, ...hasNoPriceArr];
+          sortResults(expensiveArr);
+     } else if(filterChoice === "cheap") {
+          //Create new arr so original books arr is untouched
+          cheapArr = [...booksArr];
+          let hasNoPriceArr = [];
+          let hasPriceArr = [];
+          for (let i = 0; i < cheapArr.length; i++) {
+               if (cheapArr[i].price === undefined){
+                    hasNoPriceArr.push(cheapArr[i]);
+               } else {
+                    hasPriceArr.push(cheapArr[i]);
+               }
+          }
+          //Sort ratings in descending order
+          hasPriceArr.sort((a, b) => {
+               return a.price - b.price;
+          });
+          //Combine newly sorted rating arr with all books that have no rating appended at the end
+          cheapArr = [...hasNoPriceArr, ...hasPriceArr];
+          sortResults(cheapArr);
+     } else if (filterChoice === "none"){
+          sortResults(booksArr);
+     }
+});
+
+document.getElementById("clearFilters").addEventListener("click", (e) => {
+     document.getElementById("filter").innerHTML = `
+     <option value="none">None</option>
+     <option value="newToOld">Newest first</option>
+     <option value="ratedHigh">Highest rated</option>
+     <option value="ratedLow">Lowest rated</option>
+     <option value="expensive">Price high - low</option>
+     <option value="cheap">Price low - high</option>`;
+     sortResults(booksArr);
 })
 
 const sortResults = (arr) => {
