@@ -93,9 +93,26 @@ document.getElementById("searchForm").addEventListener("submit", (e) => {
 document.getElementById("filter").addEventListener("change", (e) => {
      let filterChoice = e.target.value;
      let ratedHighArr = [];
+     let newToOldArr = [];
      console.log(filterChoice);
-     if(filterChoice === "ratedHigh") {
-
+     if (filterChoice === "newToOld"){
+          newToOldArr = [...booksArr];
+          let hasPublishedDate = [];
+          let hasNoPublishedDate = [];
+          for (let i = 0; i < newToOldArr.length; i++) {
+               if (newToOldArr[i].publishedDate === undefined){
+                    hasNoPublishedDate.push(newToOldArr[i]);
+               } else {
+                    hasPublishedDate.push(newToOldArr[i]);
+               }
+          }
+          hasPublishedDate.sort((a, b) => {
+               return b.publishedDate - a.publishedDate;
+          })
+          newToOldArr = [...hasPublishedDate, ...hasNoPublishedDate];
+          sortResults(newToOldArr);
+     } else if(filterChoice === "ratedHigh") {
+          //Create new arr so original books arr is untouched
           ratedHighArr = [...booksArr];
           let hasNoRatingArr = [];
           let hasRatingArr = [];
@@ -106,44 +123,47 @@ document.getElementById("filter").addEventListener("change", (e) => {
                     hasRatingArr.push(ratedHighArr[i]);
                }
           }
-          
+          //Sort ratings in descending order
           hasRatingArr.sort((a, b) => {
                return b.averageRating - a.averageRating;
           });
-
+          //Combine newly sorted rating arr with all books that have no rating appended at the end
           ratedHighArr = [...hasRatingArr, ...hasNoRatingArr];
-          
-          for (let i = 0; i < ratedHighArr.length; i++) {
-               console.log(ratedHighArr[i].averageRating);
-               document.getElementById(`bookCard${i}`).innerHTML = `<h2>${ratedHighArr[i].title}</h2>`;
-               //Double check if the item has a rating
-               if (ratedHighArr[i].averageRating !== undefined) {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${ratedHighArr[i].averageRating}⭐️</p>`;
-               } else {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
-               }
-               //Double check for price info
-               if (ratedHighArr[i].price !== undefined) {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${ratedHighArr[i].price}</p>`;
-               } else {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
-               }
-               //Double check for publishedDate
-               if (ratedHighArr[i].publishedDate !== undefined) {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${ratedHighArr[i].publishedDate}</p>`;
-               } else {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: n/a</p>`;
-               }
-               //Double check for thumbnail 
-               if (ratedHighArr[i].thumbnail !== undefined) {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<img src=${ratedHighArr[i].thumbnail}>`;
-               } else {
-                    document.getElementById(`bookCard${i}`).innerHTML += `<p>No cover available</p>`;
-               }
-          }
-     }
+          sortResults(ratedHighArr);
+     } 
      
 })
+
+const sortResults = (arr) => {
+     console.log("called sortResults")
+     for (let i = 0; i < arr.length; i++) {
+          document.getElementById(`bookCard${i}`).innerHTML = `<h2>${arr[i].title}</h2>`;
+          //Double check if the item has a rating
+          if (arr[i].averageRating !== undefined) {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
+          } else {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
+          }
+          //Double check for price info
+          if (arr[i].price !== undefined) {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${arr[i].price}</p>`;
+          } else {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
+          }
+          //Double check for publishedDate
+          if (arr[i].publishedDate !== undefined) {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${arr[i].publishedDate}</p>`;
+          } else {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: n/a</p>`;
+          }
+          //Double check for thumbnail 
+          if (arr[i].thumbnail !== undefined) {
+               document.getElementById(`bookCard${i}`).innerHTML += `<img src=${arr[i].thumbnail}>`;
+          } else {
+               document.getElementById(`bookCard${i}`).innerHTML += `<p>No cover available</p>`;
+          }
+     }    
+}
 
 const getSearch = (form) => {
      let formData = new FormData(form);
