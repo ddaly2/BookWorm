@@ -10,59 +10,85 @@ async function getBooks() {
 
      // Loop thru each piece of response data and create a new book object then push to booksArr
      for(let i = 0; i < data.items.length; i++) {
-          document.getElementById("books").innerHTML += `<div id='bookCard${i}'></div>`;
+          
           let book = {
                title: "",
                thumbnail: "",
                averageRating: 0,
                price: 0,
                publishedDate: 0,
-               googlePreview: ""
+               previewLink: "",
+               description: ""
           };
+
+          //Check for previewLink 
+          if(data.items[i].volumeInfo.hasOwnProperty("previewLink")) {
+               book.previewLink = data.items[i].volumeInfo.previewLink;
+               document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='${book.previewLink}' target='_blank'></a>`;
+          } else {
+               document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
+          }
+          
+          
+
+          //Create container Div that will hold the front and back content of the card
+          document.getElementById(`bookLink${i}`).innerHTML += `<div id='bookCardContainer${i}' class='bookCardContainer'></div>`;
+
+          //Create card front and back DOM elements
+          document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardFront${i}' class='bookCardFront'></div>`;
+          document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardBack${i}' class='bookCardBack'></div>`;
+          
+          //Check for description
+          if(data.items[i].volumeInfo.description !== undefined) {
+               book.description = data.items[i].volumeInfo.description;
+               document.getElementById(`bookCardBack${i}`).innerHTML += `<p class="bookDescription">${book.description}</p>`;
+          } else {
+               document.getElementById(`bookCardBack${i}`).innerHTML += "<p class='bookDescription'>No description available</p>"
+          }
 
           // Check for title 
           if(data.items[i].volumeInfo.hasOwnProperty("title")) {
                book.title = data.items[i].volumeInfo.title;
-               document.getElementById(`bookCard${i}`).innerHTML += `<h2>${book.title}</h2>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<h2>${book.title}</h2>`;
           } else {
                book.title = "<p>Title: n/a</p>";
-               document.getElementById(`bookCard${i}`).innerHTML += `${book.title}`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `${book.title}`;
           }
 
           // Check for page count
           if(data.items[i].volumeInfo.hasOwnProperty("averageRating")) {
                book.averageRating = data.items[i].volumeInfo.averageRating;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
           } else {
                book.averageRating = undefined;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
 
           // Check for price USD
           if(data.items[i].saleInfo.hasOwnProperty("listPrice")) {
                book.price = data.items[i].saleInfo.listPrice.amount;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${book.price}</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: $${book.price}</p>`;
           } else {
                book.price = undefined;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: n/a</p>`;
           }
 
           // Check for published date
           if(data.items[i].volumeInfo.hasOwnProperty("publishedDate")) {
                book.publishedDate = data.items[i].volumeInfo.publishedDate.slice(0, 4);
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${book.publishedDate}</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: ${book.publishedDate}</p>`;
           } else {
                book.publishedDate = "<p>Published: n/a</p>";
-               document.getElementById(`bookCard${i}`).innerHTML += `${book.publishedDate}`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `${book.publishedDate}`;
           }
 
           // Check for thumbnail image link
           if(data.items[i].volumeInfo.hasOwnProperty("imageLinks")) {
                book.thumbnail = data.items[i].volumeInfo.imageLinks.thumbnail;
-               document.getElementById(`bookCard${i}`).innerHTML += `<img src=${book.thumbnail} />`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<img src=${book.thumbnail} />`;
           } else {
                book.thumbnail = undefined;
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>No cover available</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>No cover available</p>`;
           }
 
           // Add new book object
@@ -71,6 +97,15 @@ async function getBooks() {
      }  
      
 }
+
+//Capture what the user entered into the search bar
+const getSearch = (form) => {
+     let formData = new FormData(form);
+     for (let item of formData.entries()){
+          searchInfo = item[1];
+     }
+}     
+
 
 // Search for any book info and retrieve it from Google API
 document.getElementById("searchForm").addEventListener("submit", (e) => {
@@ -106,7 +141,7 @@ document.getElementById("filter").addEventListener("change", (e) => {
      let ratedLowArr = [];
      let expensiveArr = [];
      let cheapArr = [];
-     console.log(filterChoice);
+     
      if (filterChoice === "newToOld"){
           newToOldArr = [...booksArr];
           let hasPublishedDate = [];
@@ -216,41 +251,49 @@ document.getElementById("clearFilters").addEventListener("click", (e) => {
 })
 
 const sortResults = (arr) => {
-     console.log("called sortResults")
+     
      for (let i = 0; i < arr.length; i++) {
-          document.getElementById(`bookCard${i}`).innerHTML = `<h2>${arr[i].title}</h2>`;
+          
+          
+          document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='${arr[i].previewLink}' target='_blank'></a>`;
+          console.log();
+
+          //Check for description and add to bookCardBack
+          if(arr[i].description !== undefined) {
+               document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description}</p>`;
+          } else {
+               document.getElementById(`bookCardBack${i}`).innerHTML = "<p class='bookDescription'>No description available</p>"
+          }
+
+          //Add Title to bookCardFront
+          document.getElementById(`bookCardFront${i}`).innerHTML = `<h2>${arr[i].title}</h2>`;
+
           //Double check if the item has a rating
           if (arr[i].averageRating !== undefined) {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
           } else {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Rating: n/a</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
           //Double check for price info
           if (arr[i].price !== undefined) {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: $${arr[i].price}</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: $${arr[i].price}</p>`;
           } else {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Price: n/a</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: n/a</p>`;
           }
           //Double check for publishedDate
           if (arr[i].publishedDate !== undefined) {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: ${arr[i].publishedDate}</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: ${arr[i].publishedDate}</p>`;
           } else {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>Published: n/a</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: n/a</p>`;
           }
           //Double check for thumbnail 
           if (arr[i].thumbnail !== undefined) {
-               document.getElementById(`bookCard${i}`).innerHTML += `<img src=${arr[i].thumbnail}>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<img src=${arr[i].thumbnail}>`;
           } else {
-               document.getElementById(`bookCard${i}`).innerHTML += `<p>No cover available</p>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>No cover available</p>`;
           }
      }    
 }
 
-const getSearch = (form) => {
-     let formData = new FormData(form);
-     for (let item of formData.entries()){
-          searchInfo = item[1];
-     }
-}     
 
 
