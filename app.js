@@ -253,11 +253,36 @@ document.getElementById("clearFilters").addEventListener("click", (e) => {
 const sortResults = (arr) => {
      
      for (let i = 0; i < arr.length; i++) {
-          
-          
-          document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='${arr[i].previewLink}' target='_blank'></a>`;
-          console.log();
 
+
+          //If the filter has been applied, make the books Div empty --> "". This fixed the issue with the wrong links following the wrong cards
+          if(i === 0) {
+               document.getElementById("books").innerHTML = "";
+               if(arr[i].previewLink !== undefined) {
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank' style='background-color: black'></a>`;
+                    console.log(document.getElementById("books"));
+               } else {
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
+               }
+          } else {
+               if(arr[i].previewLink !== undefined) {
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank' style='background-color: black'></a>`;
+                    console.log(document.getElementById("books"));
+               } else {
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
+               }
+          }
+
+          //--------------------------
+
+          //Create container Div that will hold the front and back content of the card
+          document.getElementById(`bookLink${i}`).innerHTML += `<div id='bookCardContainer${i}' class='bookCardContainer'></div>`;
+          //Create card front and back DOM elements
+          document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardFront${i}' class='bookCardFront'></div>`;
+          document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardBack${i}' class='bookCardBack'></div>`;
+
+          //--------------------------
+          
           //Check for description and add to bookCardBack
           if(arr[i].description !== undefined) {
                document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description}</p>`;
