@@ -8,22 +8,25 @@
      <title>Book Worm</title>
 </head>
 <body>
-     <h1 id="demo">Book Worm</h1>
+     <h1>Book Worm</h1>
+     <h3>Explore your favorite books</h3>
      <form id="searchForm">
           <input type="text" id="search" name="search" value="" placeholder="Title, author, etc">
-          <button type="submit" name="submit">Search</button>
+          <button type="submit" name="submit" id="searchButton">Search</button>
      </form>
-     <label for="filter">Filter</label>
-     <select name="filter" id="filter">
-          <option value="none">None</option>
-          <option value="newToOld">Newest first</option>
-          <option value="ratedHigh">Highest rated</option>
-          <option value="ratedLow">Lowest rated</option>
-          <option value="expensive">Price high - low</option>
-          <option value="cheap">Price low - high</option>
-     </select>
-     <button id="clearFilters">Clear filters</button>
-     <p id="searchMessage"></p>
+     <div class="filter-section">
+          <label for="filter" class="lone-text">Filters:</label>
+          <select name="filter" id="filter">
+               <option value="none">None</option>
+               <option value="newToOld">Newest first</option>
+               <option value="ratedHigh">Highest rated</option>
+               <option value="ratedLow">Lowest rated</option>
+               <option value="expensive">Price high - low</option>
+               <option value="cheap">Price low - high</option>
+          </select>
+          <button id="clearFilters">Clear filters</button>
+     </div>
+     <p id="searchMessage" class="lone-text"></p>
      <div id="books"></div>
 
 

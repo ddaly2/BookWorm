@@ -1,5 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Raleway:wght@300;600&display=swap');
+
 body {
-     color: black;
+     /* color: black; */
+     background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+     url(/images/bookShelf.jpg);
+     box-sizing: border-box;
+     text-align: center;
+     font-family: "Raleway", sans-serif;
+}
+
+h1 {
+     font-family: 'Marck Script', cursive;
+     color: #0E5E6F;
+     text-shadow: 1px 1px white;
+     font-size: 4rem;
+     margin: 1rem auto 1rem auto;
+}
+
+h2 {
+     margin-top: 0;
+}
+
+h3 {
+     font-family: "Marck Script", cursive;
+     color: white;
+     text-shadow: 1.5px 1.5px #0E5E6F;
+     font-size: 1.8rem;
+     margin: 0 auto 2rem auto;
+}
+
+a {
+     text-decoration: none;
+}
+
+p {
+     margin: 0 auto .5rem auto;
+}
+
+img {
+     margin: auto;
+}
+
+button {
+     font-family: "Raleway", sans-serif;
+     font-weight: 300;
+     background-color: white;
+     border-radius: 5px;
+     border: 1px solid #0E5E6F;
+}
+
+.lone-text {
+     font-family: "Raleway", sans-serif;
+     font-weight: 600;
+}
+
+#searchForm {
+     display: grid;
+     grid-template-columns: 2fr 1fr;
+     gap: 1rem;
+     margin: 0 auto 1rem auto;
+}
+
+#search {
+     font-family: "Raleway", sans-serif;
+     border-radius: 5px;
+     border: 1px solid black;
+}
+
+#searchMessage {
+     margin: 1rem auto 1rem auto;
+}
+
+.filter-section {
+     display: grid;
+     grid-template-columns: .5fr 1fr .75fr;
+     gap: 1rem;
+}
+
+#filter {
+     font-family: "Raleway", sans-serif;
+     border-radius: 5px;
+     border: 1px solid black;
 }
 
 #books {
@@ -12,14 +93,43 @@ body {
      text-align: center;
 }
 
-#bookCardFront0 {
-     border: 2px solid black;
-     background-color: gray;
+.bookCardFront {
+     border: 1px solid white;
+     background-color: #0E5E6F;
+     width: 75%;
+     margin: 0 auto 0 auto;
+     padding: 1rem 0 1rem 0;
+     text-decoration: none;
+     display: grid;
+     grid-template-rows: .2fr 1fr;
+     border-radius: 5px;
+     box-shadow: 4px 4px 4px black;
 }
 
-.bookCardFront {
-     border: 2px solid black;
-     background-color: lightblue;
+.bookCardFront p {
+     color: #F2DEBA;
+}
+
+.book-title {
+     text-decoration: underline;
+     color: white;
+}
+
+.book-info-grid {
+     display: grid;
+     grid-template-columns: 1fr 1.5fr;
+     align-items: center;
+     justify-content: center;
+}
+
+.book-stats {
+     display: grid;
+     grid-template-rows: 1fr 1fr 1fr;
+     
+}
+
+.bookDescription {
+     display: none;
 }
 
 
@@ -43,7 +153,6 @@ body {
      .bookCardContainer {
           position: relative;
           text-align: center;
-          /* padding: 15em 5em; */
           transition: transform 1s;
           transform-style: preserve-3d;
      }
@@ -54,7 +163,6 @@ body {
           bottom: 0;
           left: 0;
           right: 0;
-          
           height: auto;
           padding: 1rem 1rem;
           text-align: center;
@@ -76,5 +184,6 @@ body {
 
      .bookDescription {
           font-family: Arial, Helvetica, sans-serif;
+          display: inline;
      }
 }

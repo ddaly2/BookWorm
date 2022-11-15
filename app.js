@@ -41,7 +41,7 @@ async function getBooks() {
           //Check for description
           if(data.items[i].volumeInfo.description !== undefined) {
                book.description = data.items[i].volumeInfo.description;
-               document.getElementById(`bookCardBack${i}`).innerHTML += `<p class="bookDescription">${book.description}</p>`;
+               document.getElementById(`bookCardBack${i}`).innerHTML += `<p class="bookDescription">${book.description.substring(0, 300)}</p>`;
           } else {
                document.getElementById(`bookCardBack${i}`).innerHTML += "<p class='bookDescription'>No description available</p>"
           }
@@ -49,46 +49,55 @@ async function getBooks() {
           // Check for title 
           if(data.items[i].volumeInfo.hasOwnProperty("title")) {
                book.title = data.items[i].volumeInfo.title;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<h2>${book.title}</h2>`;
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<h2 class="book-title">${book.title}</h2>`;
           } else {
                book.title = "<p>Title: n/a</p>";
                document.getElementById(`bookCardFront${i}`).innerHTML += `${book.title}`;
           }
 
+          document.getElementById(`bookCardFront${i}`).innerHTML += `<div id="book-info-grid" class="book-info-grid">
+               <div id="book-stats${i}" class="book-stats"></div>
+               <div id="book-img${i}" class="book-img"></div>
+          </div>`;
+
+
+
+
+
           // Check for page count
           if(data.items[i].volumeInfo.hasOwnProperty("averageRating")) {
                book.averageRating = data.items[i].volumeInfo.averageRating;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
           } else {
                book.averageRating = undefined;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: n/a</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
 
           // Check for price USD
           if(data.items[i].saleInfo.hasOwnProperty("listPrice")) {
                book.price = data.items[i].saleInfo.listPrice.amount;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: $${book.price}</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Price: $${book.price}</p>`;
           } else {
                book.price = undefined;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: n/a</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Price: n/a</p>`;
           }
 
           // Check for published date
           if(data.items[i].volumeInfo.hasOwnProperty("publishedDate")) {
                book.publishedDate = data.items[i].volumeInfo.publishedDate.slice(0, 4);
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: ${book.publishedDate}</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Published: ${book.publishedDate}</p>`;
           } else {
                book.publishedDate = "<p>Published: n/a</p>";
-               document.getElementById(`bookCardFront${i}`).innerHTML += `${book.publishedDate}`;
+               document.getElementById(`book-stats${i}`).innerHTML += `${book.publishedDate}`;
           }
 
           // Check for thumbnail image link
           if(data.items[i].volumeInfo.hasOwnProperty("imageLinks")) {
                book.thumbnail = data.items[i].volumeInfo.imageLinks.thumbnail;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<img src=${book.thumbnail} />`;
+               document.getElementById(`book-img${i}`).innerHTML += `<img src=${book.thumbnail} />`;
           } else {
                book.thumbnail = undefined;
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>No cover available</p>`;
+               document.getElementById(`book-img${i}`).innerHTML += `<p>No cover available</p>`;
           }
 
           // Add new book object
@@ -259,14 +268,14 @@ const sortResults = (arr) => {
           if(i === 0) {
                document.getElementById("books").innerHTML = "";
                if(arr[i].previewLink !== undefined) {
-                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank' style='background-color: black'></a>`;
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank'></a>`;
                     console.log(document.getElementById("books"));
                } else {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
                }
           } else {
                if(arr[i].previewLink !== undefined) {
-                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank' style='background-color: black'></a>`;
+                    document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank'></a>`;
                     console.log(document.getElementById("books"));
                } else {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
@@ -285,13 +294,13 @@ const sortResults = (arr) => {
           
           //Check for description and add to bookCardBack
           if(arr[i].description !== undefined) {
-               document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description}</p>`;
+               document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description.substring(0, 300)}</p>`;
           } else {
                document.getElementById(`bookCardBack${i}`).innerHTML = "<p class='bookDescription'>No description available</p>"
           }
 
           //Add Title to bookCardFront
-          document.getElementById(`bookCardFront${i}`).innerHTML = `<h2>${arr[i].title}</h2>`;
+          document.getElementById(`bookCardFront${i}`).innerHTML = `<h2 class="book-title">${arr[i].title}</h2>`;
 
           //Double check if the item has a rating
           if (arr[i].averageRating !== undefined) {
