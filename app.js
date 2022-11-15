@@ -269,14 +269,12 @@ const sortResults = (arr) => {
                document.getElementById("books").innerHTML = "";
                if(arr[i].previewLink !== undefined) {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank'></a>`;
-                    console.log(document.getElementById("books"));
                } else {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
                }
           } else {
                if(arr[i].previewLink !== undefined) {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink test' href='${arr[i].previewLink}' target='_blank'></a>`;
-                    console.log(document.getElementById("books"));
                } else {
                     document.getElementById("books").innerHTML += `<a id='bookLink${i}' class='bookLink' href='#' target='_blank'></a>`;
                }
@@ -286,10 +284,31 @@ const sortResults = (arr) => {
 
           //Create container Div that will hold the front and back content of the card
           document.getElementById(`bookLink${i}`).innerHTML += `<div id='bookCardContainer${i}' class='bookCardContainer'></div>`;
+
           //Create card front and back DOM elements
           document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardFront${i}' class='bookCardFront'></div>`;
           document.getElementById(`bookCardContainer${i}`).innerHTML += `<div id='bookCardBack${i}' class='bookCardBack'></div>`;
 
+          //Create container for book information inside of bookCardFront
+          if(i === 0) {
+               document.getElementById(`bookCardFront${i}`).innerHTML = "";
+               //Add Title to bookCardFront
+               document.getElementById(`bookCardFront${i}`).innerHTML = `<h2 class="book-title">${arr[i].title}</h2>`;
+               //Add book info grid
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<div id="book-info-grid${i}" class="book-info-grid">
+                    <div id="book-stats${i}" class="book-stats"></div>
+                    <div id="book-img${i}" class="book-img"></div>
+               </div>`;
+          } else {
+               //Add Title to bookCardFront
+               document.getElementById(`bookCardFront${i}`).innerHTML = `<h2 class="book-title">${arr[i].title}</h2>`;
+               //Add book info grid
+               document.getElementById(`bookCardFront${i}`).innerHTML += `<div id="book-info-grid${i}" class="book-info-grid">
+                    <div id="book-stats${i}" class="book-stats"></div>
+                    <div id="book-img${i}" class="book-img"></div>
+               </div>`;
+          }
+          
           //--------------------------
           
           //Check for description and add to bookCardBack
@@ -299,32 +318,29 @@ const sortResults = (arr) => {
                document.getElementById(`bookCardBack${i}`).innerHTML = "<p class='bookDescription'>No description available</p>"
           }
 
-          //Add Title to bookCardFront
-          document.getElementById(`bookCardFront${i}`).innerHTML = `<h2 class="book-title">${arr[i].title}</h2>`;
-
           //Double check if the item has a rating
           if (arr[i].averageRating !== undefined) {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
           } else {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Rating: n/a</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
           //Double check for price info
           if (arr[i].price !== undefined) {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: $${arr[i].price}</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Price: $${arr[i].price}</p>`;
           } else {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Price: n/a</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Price: n/a</p>`;
           }
           //Double check for publishedDate
           if (arr[i].publishedDate !== undefined) {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: ${arr[i].publishedDate}</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Published: ${arr[i].publishedDate}</p>`;
           } else {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>Published: n/a</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Published: n/a</p>`;
           }
           //Double check for thumbnail 
           if (arr[i].thumbnail !== undefined) {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<img src=${arr[i].thumbnail}>`;
+               document.getElementById(`book-img${i}`).innerHTML += `<img src=${arr[i].thumbnail}>`;
           } else {
-               document.getElementById(`bookCardFront${i}`).innerHTML += `<p>No cover available</p>`;
+               document.getElementById(`book-img${i}`).innerHTML += `<p>No cover available</p>`;
           }
      }    
 }
