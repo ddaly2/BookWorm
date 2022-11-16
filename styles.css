@@ -47,11 +47,15 @@ button {
      background-color: white;
      border-radius: 5px;
      border: 1px solid #0E5E6F;
+     background-color: #FFEFD6;
+     color: #0E5E6F;
+     font-weight: 600;
 }
 
 .lone-text {
      font-family: "Raleway", sans-serif;
      font-weight: 600;
+     text-shadow: 1px 1px white;
 }
 
 #searchForm {
@@ -98,12 +102,12 @@ button {
      background-color: #0E5E6F;
      width: 75%;
      margin: 0 auto 0 auto;
-     padding: 1rem 0 1rem 0;
+     padding: 1rem;
      text-decoration: none;
      display: grid;
      grid-template-rows: .2fr 1fr;
      border-radius: 5px;
-     box-shadow: 4px 4px 4px black;
+     box-shadow: 4px 4px 4px rgb(56, 56, 56);
 }
 
 .bookCardFront p {
@@ -113,6 +117,7 @@ button {
 .book-title {
      text-decoration: underline;
      color: white;
+     font-size: 1.1rem;
 }
 
 .book-info-grid {
@@ -133,21 +138,100 @@ button {
 }
 
 
-@media screen and (min-width: 700px) {
-     #books {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          align-items: baseline;
-          position: relative;
-          gap: 5rem;
+@media screen and (min-width: 700px) { 
+     h1 {
+          font-size: 6rem;
      }
 
-     .bookLink {
-          background-color: lightblue;
+     h3 {
+          font-size: 2.2rem;
+     }
+
+     button {
+          width: 50%;
+          font-size: .9rem;
+          font-weight: 600;
+          height: 100%;
+          border: 2px solid #0E5E6F;
+          transition: all ease .5s;
+     }
+
+     button:hover {
+          cursor: pointer;
+          background-color: #F2DEBA;
+     }
+
+     button:focus {
+          box-shadow: 0 0 20px lightblue;
+     }
+
+     input {
+          width: 60%;
+          height: 100%;
+          margin: auto;
+          font-size: 1.1rem;
+     }
+
+     input:focus {
+          box-shadow: 0 0 20px lightblue;
+     }
+
+     #searchForm {
+          justify-content: center;
+          height: 2rem;
+     }
+
+     .filter-section {
+          grid-template-columns: 1fr 1fr 1fr;
+          width: 75%;
+          height: 2rem;
+          align-content: center;
+          margin: 2rem auto auto auto;
+     }
+
+     .filter-section label:first-child {
+          text-align: right;
+          font-size: 1.3rem;
+          justify-items: end;
+          right: 0;
+     }
+
+     #filter {
+          width: 50%;
+          height: 2rem;
+          font-size: 1.1rem;
+     }
+
+     #filter:focus {
+          box-shadow: 0 0 20px lightblue;
+     }
+
+     #filter:hover {
+          cursor: pointer;
+     }
+     
+     #books {
+          width: 100%;
+          margin: auto;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          align-content: center;
+          justify-items: center;
+          position: relative;
+          gap: 3rem;
+     }
+
+     .book-title {
+          font-size: 1.1rem;
      }
 
      .bookLink:hover .bookCardContainer {
           transform: rotateY(.5turn);
+     }
+
+     .bookLink {
+          width: 100%;
+          height: 300px;
      }
 
      .bookCardContainer {
@@ -173,17 +257,65 @@ button {
      }
 
      .bookCardFront {
-          background-color: pink;
+          grid-template-rows: .4fr 1fr;
+          background-color: #0E5E6F;
+          width: 85%;
+     }
+
+     .bookCardFront p {
+          font-size: .9rem;
+     }
+
+     .book-img img{
+          height: 180px;
+          width: auto;
      }
 
      .bookCardBack {
           transform: rotateY(.5turn);
           position: absolute;
-          background-color: slateblue;
+          background-color: #F2DEBA;
+          color: black;
+          font-size: .9rem;
+          margin: 0 auto 0 auto;
+          width: 85%;
+          border: 1px solid #0E5E6F;
+          border-radius: 5px;
+          box-shadow: 4px 4px 4px rgb(56, 56, 56);
      }
 
      .bookDescription {
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: "Raleway", sans-serif;
           display: inline;
+     }
+}
+
+@media screen and (min-width: 900px) {
+     #books {
+          grid-template-columns: repeat(3, 1fr);
+     }
+
+     #bookLink9 {
+          grid-column: 2/3;
+     }
+}
+
+@media screen and (min-width: 1000px) {
+     button {
+          font-size: 1.1rem;
+     }
+}
+
+@media screen and (min-width: 1100px) {
+     #books {
+          grid-template-columns: repeat(4, 1fr);
+     }
+
+     #bookLink8 {
+          grid-column: 2/3;
+     }
+
+     #bookLink9 {
+          grid-column: 3/4;
      }
 }

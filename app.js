@@ -41,7 +41,7 @@ async function getBooks() {
           //Check for description
           if(data.items[i].volumeInfo.description !== undefined) {
                book.description = data.items[i].volumeInfo.description;
-               document.getElementById(`bookCardBack${i}`).innerHTML += `<p class="bookDescription">${book.description.substring(0, 300)}</p>`;
+               document.getElementById(`bookCardBack${i}`).innerHTML += `<p class="bookDescription">${book.description.substring(0, 300)}...</p>`;
           } else {
                document.getElementById(`bookCardBack${i}`).innerHTML += "<p class='bookDescription'>No description available</p>"
           }
@@ -67,7 +67,7 @@ async function getBooks() {
           // Check for page count
           if(data.items[i].volumeInfo.hasOwnProperty("averageRating")) {
                book.averageRating = data.items[i].volumeInfo.averageRating;
-               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${book.averageRating}⭐️</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${book.averageRating} ⭐️</p>`;
           } else {
                book.averageRating = undefined;
                document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: n/a</p>`;
@@ -313,14 +313,14 @@ const sortResults = (arr) => {
           
           //Check for description and add to bookCardBack
           if(arr[i].description !== undefined) {
-               document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description.substring(0, 300)}</p>`;
+               document.getElementById(`bookCardBack${i}`).innerHTML = `<p class="bookDescription">${arr[i].description.substring(0, 300)}...</p>`;
           } else {
                document.getElementById(`bookCardBack${i}`).innerHTML = "<p class='bookDescription'>No description available</p>"
           }
 
           //Double check if the item has a rating
           if (arr[i].averageRating !== undefined) {
-               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating}⭐️</p>`;
+               document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: ${arr[i].averageRating} ⭐️</p>`;
           } else {
                document.getElementById(`book-stats${i}`).innerHTML += `<p>Rating: n/a</p>`;
           }
